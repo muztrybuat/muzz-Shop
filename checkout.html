@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Muzz Shop Order</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(15, 25, 45, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d2ff, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #a0b3d9;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 40px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: white;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .main-container {
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .checkout-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 32px;
+            padding: 2rem;
+        }
+
+        .checkout-card h2 {
+            text-align: center;
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .checkout-card > p {
+            text-align: center;
+            color: #4a4a6a;
+            margin-bottom: 1.5rem;
+        }
+
+        .order-summary {
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .order-summary h3 {
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .order-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .order-detail:last-child {
+            border-bottom: none;
+        }
+
+        .order-detail span {
+            color: #4a4a6a;
+        }
+
+        .order-detail strong {
+            color: #1a1a2e;
+        }
+
+        .price-total {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #00d2ff;
+        }
+
+        .btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #00d2ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><i class="fas fa-bolt"></i> Muzz Shop Order</div>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="products.html" class="nav-link">Products</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="checkout-card">
+            <h2><i class="fas fa-shopping-cart"></i> Checkout</h2>
+            <p>Review your order before payment</p>
+            <div id="checkoutContent"></div>
+        </div>
+    </div>
+
+    <script>
+        function checkAuth() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) window.location.href = 'login.html';
+            return currentUser;
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        function loadCheckout() {
+            const user = checkAuth();
+            const pendingOrder = JSON.parse(localStorage.getItem('pendingOrder'));
+            
+            if (!pendingOrder) {
+                window.location.href = 'products.html';
+                return;
+            }
+            
+            const container = document.getElementById('checkoutContent');
+            container.innerHTML = `
+                <div class="order-summary">
+                    <h3>📋 Order Details</h3>
+                    <div class="order-detail"><span>Order ID</span><strong>${pendingOrder.orderId}</strong></div>
+                    <div class="order-detail"><span>Product</span><strong>${pendingOrder.productName}</strong></div>
+                    <div class="order-detail"><span>Price</span><strong class="price-total">Rp ${pendingOrder.price.toLocaleString()}</strong></div>
+                </div>
+                <div class="order-summary">
+                    <h3>👤 Customer Information</h3>
+                    <div class="order-detail"><span>Name</span><strong>${pendingOrder.customerName}</strong></div>
+                    <div class="order-detail"><span>Email</span><strong>${pendingOrder.customerEmail}</strong></div>
+                </div>
+                <button class="btn" onclick="processPayment()">Proceed to Payment →</button>
+                <a href="products.html" class="back-link">← Back to Products</a>
+            `;
+        }
+        
+        function processPayment() {
+            const pendingOrder = JSON.parse(localStorage.getItem('pendingOrder'));
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.push({ ...pendingOrder, status: 'pending_payment' });
+            localStorage.setItem('orders', JSON.stringify(orders));
+            window.location.href = 'payment.html';
+        }
+        
+        loadCheckout();
+    </script>
+</body>
+</html>

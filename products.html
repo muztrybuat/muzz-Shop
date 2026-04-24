@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Muzz Shop Order</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(15, 25, 45, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d2ff, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #a0b3d9;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 40px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: white;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h2 {
+            color: white;
+            font-size: 2rem;
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .category-filter {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            background: white;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            color: #1a1a2e;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: white;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .badge-category {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .product-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1a1a2e;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #00d2ff;
+            margin: 0.5rem 0;
+        }
+
+        .product-desc {
+            color: #4a4a6a;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .product-features span {
+            background: #edf2f7;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #1a1a2e;
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover {
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><i class="fas fa-bolt"></i> Muzz Shop Order</div>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="products.html" class="nav-link active">Products</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="page-header">
+            <h2><i class="fas fa-store"></i> Our Products</h2>
+            <p>Choose your favorite product</p>
+        </div>
+
+        <div class="category-filter">
+            <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+            <button class="filter-btn" onclick="filterProducts('Panel')">Panel</button>
+            <button class="filter-btn" onclick="filterProducts('Bug')">Bug</button>
+            <button class="filter-btn" onclick="filterProducts('Bot')">Bot</button>
+            <button class="filter-btn" onclick="filterProducts('Script')">Script</button>
+            <button class="filter-btn" onclick="filterProducts('BaseAPK')">Base APK</button>
+        </div>
+
+        <div id="productGrid" class="product-grid"></div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "Panel Pterodactyl", price: 150000, icon: "🖥️", desc: "Premium game hosting panel", category: "Panel", features: ["Unlimited RAM", "Unlimited CPU"], type: "ram" },
+            { id: 2, name: "Murid Bug", price: 85000, icon: "🐛", desc: "Bug exploit for various services", category: "Bug", features: ["Regular Update", "7 Days Warranty"], type: "normal" },
+            { id: 3, name: "Aplikasi Bug Manta", price: 17000, icon: "🦈", desc: "Unlimited quota bug for Manta", category: "Bug", features: ["Mulai RM 1", "Harian/Bulanan/Full Up"], type: "normal" },
+            { id: 4, name: "Bot WhatsApp", price: 50000, icon: "🤖", desc: "Bot WhatsApp dengan berbagai pilihan paket", category: "Bot", features: ["Mulai RM 3", "6 Pilihan Paket"], type: "normal" },
+            { id: 5, name: "Script Auto Order", price: 350000, icon: "📝", desc: "Auto order script for marketplace", category: "Script", features: ["Multi Account", "Anti Detect"], type: "normal" },
+            { id: 6, name: "Base APK", price: 51000, icon: "📱", desc: "Base APK untuk berbagai kebutuhan", category: "BaseAPK", features: ["Mulai RM 3", "8 Pilihan Base APK"], type: "normal" },
+            { id: 7, name: "Web Create Script WA", price: 5000, icon: "🌐", desc: "Web create script WhatsApp dengan pilihan rank", category: "Script", features: ["20 Rank Tersedia", "Rp 5.000 per rank"], type: "normal" }
+        ];
+
+        let currentFilter = 'all';
+
+        function checkAuth() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) window.location.href = 'login.html';
+            return currentUser;
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            let filtered = currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter);
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; padding:3rem; color:white;">No products in this category</div>';
+                return;
+            }
+            
+            grid.innerHTML = filtered.map(product => `
+                <div class="product-card" onclick="buyProduct(${product.id})">
+                    <div class="badge-category">${product.category}</div>
+                    <div class="product-icon">${product.icon}</div>
+                    <div class="product-title">${product.name}</div>
+                    <div class="product-price">${product.price > 0 ? 'Rp ' + product.price.toLocaleString() : 'Mulai RM 1'}</div>
+                    <div class="product-desc">${product.desc}</div>
+                    <div class="product-features">${product.features.map(f => `<span>✓ ${f}</span>`).join('')}</div>
+                    <button class="btn-buy">Buy Now →</button>
+                </div>
+            `).join('');
+        }
+
+        function filterProducts(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase() === category.toLowerCase() || (category === 'all' && btn.textContent === 'All')) {
+                    btn.classList.add('active');
+                }
+            });
+            renderProducts();
+        }
+
+        function buyProduct(productId) {
+            const user = checkAuth();
+            const product = products.find(p => p.id === productId);
+            
+            const pendingOrder = {
+                orderId: 'ORD' + Date.now() + Math.floor(Math.random() * 1000),
+                productId: product.id,
+                productName: product.name,
+                price: product.price,
+                customerName: user.name,
+                customerEmail: user.email,
+                date: new Date().toLocaleString('id-ID'),
+                timestamp: Date.now()
+            };
+            
+            localStorage.setItem('pendingOrder', JSON.stringify(pendingOrder));
+            window.location.href = 'checkout.html';
+        }
+
+        checkAuth();
+        renderProducts();
+    </script>
+</body>
+</html>

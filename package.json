@@ -1,0 +1,15 @@
+{
+  "name": "muzz-shop-order",
+  "version": "3.0.0",
+  "description": "Muzz Shop Order - Auto Order System",
+  "main": "index.html",
+  "scripts": {
+    "start": "vercel dev",
+    "build": "echo Build completed"
+  },
+  "author": "Muhammad Muzakir",
+  "license": "MIT",
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
+}

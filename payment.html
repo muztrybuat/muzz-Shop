@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Muzz Shop Order</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(15, 25, 45, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d2ff, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #a0b3d9;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 40px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: white;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .main-container {
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .payment-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 32px;
+            padding: 2rem;
+        }
+
+        .payment-card h2 {
+            text-align: center;
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-card > p {
+            text-align: center;
+            color: #4a4a6a;
+            margin-bottom: 1.5rem;
+        }
+
+        .order-summary {
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .order-summary p {
+            margin: 8px 0;
+            color: #1a1a2e;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .method-card {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .method-card:hover, .method-card.selected {
+            border-color: #00d2ff;
+            background: linear-gradient(135deg, #00d2ff10, #3a7bd510);
+        }
+
+        .method-icon {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1a1a2e;
+        }
+
+        .method-title {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .method-desc {
+            font-size: 0.75rem;
+            color: #4a4a6a;
+        }
+
+        .payment-detail {
+            display: none;
+        }
+
+        .payment-detail.active {
+            display: block;
+        }
+
+        .qris-container, .duitnow-container {
+            text-align: center;
+            background: #f7fafc;
+            border-radius: 24px;
+            padding: 1.5rem;
+        }
+
+        .qris-container h3, .duitnow-container h3 {
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .payment-image {
+            max-width: 250px;
+            width: 100%;
+            margin: 1rem auto;
+            display: block;
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+        }
+
+        .supported-apps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 1rem 0;
+        }
+
+        .supported-apps span {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #1a1a2e;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .timer {
+            color: #eab308;
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><i class="fas fa-bolt"></i> Muzz Shop Order</div>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="products.html" class="nav-link">Products</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="payment-card">
+            <h2><i class="fas fa-qrcode"></i> Payment Method</h2>
+            <p>Choose your payment method</p>
+
+            <div id="orderSummary" class="order-summary"></div>
+
+            <div class="payment-methods">
+                <div class="method-card" id="qrisCard" onclick="selectMethod('qris')">
+                    <div class="method-icon">🇮🇩 QRIS</div>
+                    <div class="method-title">QRIS Indonesia</div>
+                    <div class="method-desc">Dana • OVO • GoPay • LinkAja</div>
+                </div>
+                <div class="method-card" id="duitnowCard" onclick="selectMethod('duitnow')">
+                    <div class="method-icon">🇲🇾 DuitNow</div>
+                    <div class="method-title">DuitNow Malaysia</div>
+                    <div class="method-desc">Maybank • TnG • GrabPay • Boost</div>
+                </div>
+            </div>
+
+            <div id="qrisDetail" class="payment-detail">
+                <div class="qris-container">
+                    <h3>Scan QRIS - All Payment</h3>
+                    <img id="qrisImage" class="payment-image" src="" alt="QRIS Code">
+                    <div class="supported-apps" id="qrisApps"></div>
+                    <div class="timer" id="qrisTimer">⏳ Time remaining: 30:00</div>
+                    <button class="btn-confirm" onclick="confirmQRISPayment()">✅ I Have Paid</button>
+                </div>
+            </div>
+
+            <div id="duitnowDetail" class="payment-detail">
+                <div class="duitnow-container">
+                    <h3>Scan DuitNow QR</h3>
+                    <img id="duitnowImage" class="payment-image" src="" alt="DuitNow QR Code">
+                    <div class="supported-apps" id="duitnowApps"></div>
+                    <div class="timer" id="duitnowTimer">⏳ Time remaining: 30:00</div>
+                    <button class="btn-confirm" onclick="confirmDuitNowPayment()">✅ I Have Paid</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timerInterval = null;
+
+        function checkAuth() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) window.location.href = 'login.html';
+            return currentUser;
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        function loadPayment() {
+            const user = checkAuth();
+            const pendingOrder = JSON.parse(localStorage.getItem('pendingOrder'));
+            
+            if (!pendingOrder) {
+                window.location.href = 'products.html';
+                return;
+            }
+            
+            const summaryDiv = document.getElementById('orderSummary');
+            summaryDiv.innerHTML = `
+                <p><strong>Order ID:</strong> ${pendingOrder.orderId}</p>
+                <p><strong>Product:</strong> ${pendingOrder.productName}</p>
+                <p><strong>Total:</strong> <span style="color:#00d2ff; font-weight:700;">Rp ${pendingOrder.price.toLocaleString()}</span></p>
+            `;
+            
+            const qrisApps = ['Dana', 'OVO', 'GoPay', 'LinkAja', 'ShopeePay'];
+            const duitnowApps = ['Maybank2u', 'Touch n Go', 'GrabPay', 'Boost', 'RHB Bank'];
+            
+            document.getElementById('qrisApps').innerHTML = qrisApps.map(app => `<span>${app}</span>`).join('');
+            document.getElementById('duitnowApps').innerHTML = duitnowApps.map(app => `<span>${app}</span>`).join('');
+            
+            const qrisImage = document.getElementById('qrisImage');
+            qrisImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=QRIS-MUZZ-${pendingOrder.orderId}-${pendingOrder.price}`;
+            
+            const duitnowImage = document.getElementById('duitnowImage');
+            duitnowImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=DUITNOW-MUZZ-${pendingOrder.orderId}-${pendingOrder.price}`;
+        }
+
+        function selectMethod(method) {
+            document.querySelectorAll('.method-card').forEach(card => card.classList.remove('selected'));
+            document.getElementById(method + 'Card').classList.add('selected');
+            document.querySelectorAll('.payment-detail').forEach(detail => detail.classList.remove('active'));
+            document.getElementById(method + 'Detail').classList.add('active');
+            
+            if (timerInterval) clearInterval(timerInterval);
+            startTimer(method === 'qris' ? 'qrisTimer' : 'duitnowTimer');
+        }
+
+        function startTimer(elementId) {
+            let timeLeft = 1800;
+            const timerElement = document.getElementById(elementId);
+            
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.innerHTML = `⏳ Time remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                timeLeft--;
+                if (timeLeft < 0) clearInterval(timerInterval);
+            }, 1000);
+        }
+
+        function confirmQRISPayment() {
+            confirmPayment('QRIS Indonesia');
+        }
+
+        function confirmDuitNowPayment() {
+            confirmPayment('DuitNow Malaysia');
+        }
+
+        function confirmPayment(paymentMethod) {
+            const pendingOrder = JSON.parse(localStorage.getItem('pendingOrder'));
+            if (!pendingOrder) return;
+            
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const existingIndex = orders.findIndex(o => o.orderId === pendingOrder.orderId);
+            
+            const orderData = {
+                ...pendingOrder,
+                paymentMethod: paymentMethod,
+                status: 'paid',
+                paidAt: new Date().toISOString()
+            };
+            
+            if (existingIndex !== -1) {
+                orders[existingIndex] = orderData;
+            } else {
+                orders.push(orderData);
+            }
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            const message = `Hai owner, saya habis membeli ${pendingOrder.productName} saya ingin mengambil benda ini, ini biodata saya
+
+ID Pesanan : ${pendingOrder.orderId}
+Nama Pembeli : ${pendingOrder.customerName}
+Barang Dibeli : ${pendingOrder.productName}
+Harga : Rp ${pendingOrder.price.toLocaleString()}
+Metode Bayar : ${paymentMethod}
+Tanggal Beli : ${pendingOrder.date}
+
+Mohon segera kirimkan ini
+
+Note : 
+!! JANGAN HAPUS , LANGSUNG KIRIM SAJA !!`;
+            
+            const ownerNumber = '60175632450';
+            const waLink = `https://wa.me/${ownerNumber}?text=${encodeURIComponent(message)}`;
+            
+            alert('✅ Payment confirmed! You will be redirected to WhatsApp.');
+            window.open(waLink, '_blank');
+            
+            localStorage.removeItem('pendingOrder');
+            window.location.href = 'dashboard.html';
+        }
+
+        loadPayment();
+    </script>
+</body>
+</html>
